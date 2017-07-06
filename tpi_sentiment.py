@@ -74,11 +74,35 @@ page = "http://timesofindia.indiatimes.com/2008/1/17/archivelist/year-2008,month
 page = urllib2.urlopen(page)
 soup = BeautifulSoup(page,"html.parser")
 
-print soup.prettify()
-
+links_toi = [ ]
 for item in soup.find_all('a') :
     #print type(item.get('href'))
     l = str(item.get('href')).split('/')
     if 'articleshow' in l :
-        print item.get('href')
+        if str(item.get('href'))[0] == '/':
+            link = "http://timesofindia.indiatimes.com" + str(item.get('href'))
+        else :
+            link = str(item.get('href'))
+        links_toi.append(link)
 
+
+# extracting data from each page
+
+page = "http://timesofindia.indiatimes.com/business/india-business/Send-Money-to-India-the-safe-convenient-inexpensive-way/articleshow/11079712.cms"
+page = urllib2.urlopen(page)
+soup = BeautifulSoup(page,"html.parser")
+print soup.prettify()
+
+
+""" Gets the text of the article  of TOI """ 
+
+for item in soup.find_all('div', class_="Normal") :
+    print item.get_text()
+    
+
+""" Gets the heading of link """ 
+    
+soup.find('h1', class_= "heading1").get_text()  
+    
+    
+    
